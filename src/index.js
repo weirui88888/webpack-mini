@@ -1,9 +1,9 @@
-import helloWorld from "./helloWorld"
+import helloWorld from './helloWorld'
 
 const helloWorldStr = helloWorld()
 
 function component() {
-  const element = document.createElement("div")
+  const element = document.createElement('div')
 
   element.innerHTML = helloWorldStr
 

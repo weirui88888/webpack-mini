@@ -1,6 +1,6 @@
-import hello from "./hello"
+import hello from './hello'
 
-const world = "world"
+const world = 'world'
 
 const helloWorld = () => `${hello} ${world}`
 
