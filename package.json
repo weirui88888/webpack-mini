@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "parse": "node lib/parse.js"
+    "esm-webpack": "node ./ESM/lib/parse.js"
   },
   "keywords": [],
   "author": "",

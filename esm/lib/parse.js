@@ -6,7 +6,7 @@ const generate = require('@babel/generator').default
 const t = require('@babel/types')
 const ejs = require('ejs')
 
-const config = require('../webpack.config')
+const config = require('../../webpack.esm.config')
 
 const EXPORT_DEFAULT_FUN = `
 __webpack_require__.d(__webpack_exports__, {
@@ -55,20 +55,16 @@ function parseFile(file) {
     },
     ExportDefaultDeclaration(p) {
       hasExport = true
-
       const variableDeclaration = t.variableDeclaration('const', [
         t.variableDeclarator(t.identifier('__WEBPACK_DEFAULT_EXPORT__'), t.identifier(p.node.declaration.name)),
       ])
-
       p.replaceWith(variableDeclaration)
     },
   })
   let newCode = generate(ast).code
-
   if (hasExport) {
     newCode = `${EXPORT_DEFAULT_FUN} ${newCode}`
   }
-
   newCode = `${ESMODULE_TAG_FUN} ${newCode}`
 
   return {
