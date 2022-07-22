@@ -39,7 +39,7 @@ function parseFile(file) {
         t.variableDeclarator(
           t.identifier(`__${path.basename(importFile)}__WEBPACK_IMPORTED_MODULE_0__`),
           t.callExpression(t.identifier('__webpack_require__'), [t.stringLiteral(importFilePath)])
-        ),
+        )
       ])
       p.replaceWith(variableDeclaration)
     },
@@ -56,10 +56,10 @@ function parseFile(file) {
     ExportDefaultDeclaration(p) {
       hasExport = true
       const variableDeclaration = t.variableDeclaration('const', [
-        t.variableDeclarator(t.identifier('__WEBPACK_DEFAULT_EXPORT__'), t.identifier(p.node.declaration.name)),
+        t.variableDeclarator(t.identifier('__WEBPACK_DEFAULT_EXPORT__'), t.identifier(p.node.declaration.name))
       ])
       p.replaceWith(variableDeclaration)
-    },
+    }
   })
   let newCode = generate(ast).code
   if (hasExport) {
@@ -70,7 +70,7 @@ function parseFile(file) {
   return {
     file,
     dependcies,
-    code: newCode,
+    code: newCode
   }
 }
 
@@ -96,7 +96,7 @@ function generateCode(allAst, entry) {
 
   const codes = ejs.render(temlateFile, {
     __TO_REPLACE_WEBPACK_MODULES__: allAst,
-    __TO_REPLACE_WEBPACK_ENTRY__: entry,
+    __TO_REPLACE_WEBPACK_ENTRY__: entry
   })
 
   return codes

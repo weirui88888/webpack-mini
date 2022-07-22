@@ -2,9 +2,9 @@
 class PluginB {
   apply(compiler) {
     compiler.hooks.done.tap('Plugin B', () => {
-      console.log('PluginB');
-    });
+      console.log('PluginB')
+    })
   }
 }
 
-module.exports = PluginB;
+module.exports = PluginB

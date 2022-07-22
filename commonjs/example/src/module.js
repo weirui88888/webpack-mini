@@ -1,4 +1,4 @@
-const name = "weirui"
+const name = 'weirui'
 
 module.exports = {
   name

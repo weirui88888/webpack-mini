@@ -3,7 +3,7 @@
     var __webpack_modules__ = {
       
           './commonjs/example/src/module.js': (module) => {
-            const name = "weirui";
+            const name = 'weirui';
 module.exports = {
   name
 };
@@ -37,8 +37,11 @@ const loader1 = 'https://github.com/19Qingfeng';
     (() => {
       const depModule = __webpack_require__("./commonjs/example/src/module.js");
 
-console.log(depModule, "dep");
-console.log("This is entry 1 !");
+const introduce = document.createElement('h3');
+introduce.innerText = '简易webpack实现commonjs规范语法转es5语法';
+document.body.appendChild(introduce);
+console.log(depModule, 'dep');
+console.log('This is entry 1 !');
 const loader2 = 'weirui';
 const loader1 = 'https://github.com/19Qingfeng';
     })();

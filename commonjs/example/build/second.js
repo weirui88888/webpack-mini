@@ -3,7 +3,7 @@
     var __webpack_modules__ = {
       
           './commonjs/example/src/module.js': (module) => {
-            const name = "weirui";
+            const name = 'weirui';
 module.exports = {
   name
 };
@@ -37,8 +37,8 @@ const loader1 = 'https://github.com/19Qingfeng';
     (() => {
       const depModule = __webpack_require__("./commonjs/example/src/module.js");
 
-console.log(depModule, "dep");
-console.log("This is entry 2 !");
+console.log(depModule, 'dep');
+console.log('This is entry 2 !');
 const loader2 = 'weirui';
 const loader1 = 'https://github.com/19Qingfeng';
     })();

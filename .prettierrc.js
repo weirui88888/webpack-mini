@@ -6,5 +6,5 @@ module.exports = {
   jsxSingleQuote: true, // jsx中使用单引号
   trailingComma: 'none', // 尾随逗号
   arrowParens: 'avoid', // 箭头函数仅在必要时使用()
-  htmlWhitespaceSensitivity: 'css', // html空格敏感度
+  htmlWhitespaceSensitivity: 'css' // html空格敏感度
 }

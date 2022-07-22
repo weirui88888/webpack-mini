@@ -1,3 +1,3 @@
-const hello = "hello"
+const hello = 'hello'
 
 export default hello

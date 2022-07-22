@@ -1,11 +1,11 @@
-const { SyncHook } = require("tapable")
-const path = require("path")
-const parser = require("@babel/parser")
-const traverse = require("@babel/traverse").default
-const generator = require("@babel/generator").default
-const t = require("@babel/types")
-const fs = require("fs")
-const { tryExtensions, toUnixPath, getSourceCode } = require("./utils/index")
+const { SyncHook } = require('tapable')
+const path = require('path')
+const parser = require('@babel/parser')
+const traverse = require('@babel/traverse').default
+const generator = require('@babel/generator').default
+const t = require('@babel/types')
+const fs = require('fs')
+const { tryExtensions, toUnixPath, getSourceCode } = require('./utils/index')
 
 class Compiler {
   constructor(options) {
@@ -50,8 +50,8 @@ class Compiler {
   exportFile(callback) {
     const output = this.options.output
     // 根据chunks生成assets内容
-    this.chunks.forEach((chunk) => {
-      const parseFileName = output.filename.replace("[name]", chunk.name)
+    this.chunks.forEach(chunk => {
+      const parseFileName = output.filename.replace('[name]', chunk.name)
       // assets中 { 'main.js': '生成的字符串代码...' }
       this.assets[parseFileName] = getSourceCode(chunk)
     })
@@ -64,7 +64,7 @@ class Compiler {
     // files中保存所有的生成文件名
     this.files = Object.keys(this.assets)
     // 将assets中的内容生成打包文件 写入文件系统中
-    Object.keys(this.assets).forEach((fileName) => {
+    Object.keys(this.assets).forEach(fileName => {
       const filePath = path.join(output.path, fileName)
       fs.writeFileSync(filePath, this.assets[fileName])
     })
@@ -84,7 +84,7 @@ class Compiler {
   }
 
   buildEntryModule(entry) {
-    Object.keys(entry).forEach((entryName) => {
+    Object.keys(entry).forEach(entryName => {
       const entryPath = entry[entryName]
       // 调用buildModule实现真正的模块编译逻辑
       const entryObj = this.buildModule(entryName, entryPath)
@@ -99,7 +99,7 @@ class Compiler {
     const chunk = {
       name: entryName, // 每一个入口文件作为一个chunk
       entryModule: entryObj, // entry编译后的对象
-      modules: Array.from(this.modules).filter((i) => i.name.includes(entryName)) // 寻找与当前entry有关的所有module
+      modules: Array.from(this.modules).filter(i => i.name.includes(entryName)) // 寻找与当前entry有关的所有module
     }
     // 将chunk添加到this.chunks中去
     this.chunks.add(chunk)
@@ -108,7 +108,7 @@ class Compiler {
   // 模块编译方法
   buildModule(moduleName, modulePath) {
     // 1. 读取文件原始代码
-    const originSourceCode = (this.originSourceCode = fs.readFileSync(modulePath, "utf-8"))
+    const originSourceCode = (this.originSourceCode = fs.readFileSync(modulePath, 'utf-8'))
     // moduleCode为修改后的代码
     this.moduleCode = originSourceCode
     //  2. 调用loader进行处理
@@ -122,7 +122,7 @@ class Compiler {
   // 调用webpack进行模块编译
   handleWebpackCompiler(moduleName, modulePath) {
     // 将当前模块相对于项目启动根目录计算出相对路径 作为模块ID
-    const moduleId = "./" + path.posix.relative(this.rootPath, modulePath)
+    const moduleId = './' + path.posix.relative(this.rootPath, modulePath)
     // 创建模块对象
     const module = {
       id: moduleId,
@@ -131,14 +131,14 @@ class Compiler {
     }
     // 调用babel分析我们的代码
     const ast = parser.parse(this.moduleCode, {
-      sourceType: "module"
+      sourceType: 'module'
     })
     // 深度优先 遍历语法Tree
     traverse(ast, {
       // 当遇到require语句时
-      CallExpression: (nodePath) => {
+      CallExpression: nodePath => {
         const node = nodePath.node
-        if (node.callee.name === "require") {
+        if (node.callee.name === 'require') {
           // 获得源代码中引入模块相对路径
           const requirePath = node.arguments[0].value
           // 寻找模块绝对路径 当前模块路径+require()对应相对路径
@@ -150,9 +150,9 @@ class Compiler {
             moduleDirName
           )
           // 生成moduleId - 针对于跟路径的模块ID 添加进入新的依赖模块路径
-          const moduleId = "./" + path.posix.relative(this.rootPath, absolutePath)
+          const moduleId = './' + path.posix.relative(this.rootPath, absolutePath)
           // 通过babel修改源代码中的require变成__webpack_require__语句
-          node.callee = t.identifier("__webpack_require__")
+          node.callee = t.identifier('__webpack_require__')
           // 修改源代码中require语句引入的模块 全部修改变为相对于跟路径来处理
           node.arguments = [t.stringLiteral(moduleId)]
           // 为当前模块添加require语句造成的依赖(内容为相对于根路径的模块ID)
@@ -165,7 +165,7 @@ class Compiler {
     // 为当前模块挂载新的生成的代码
     module._source = code
     // 递归依赖深度遍历 存在依赖模块则加入
-    module.dependencies.forEach((dependency) => {
+    module.dependencies.forEach(dependency => {
       const depModule = this.buildModule(moduleName, dependency)
       // 将编译后的任何依赖模块对象加入到modules对象中去
       this.modules.add(depModule)
@@ -179,7 +179,7 @@ class Compiler {
     const matchLoaders = []
     // 1. 获取所有传入的loader规则
     const rules = this.options.module.rules
-    rules.forEach((loader) => {
+    rules.forEach(loader => {
       const testRule = loader.test
       if (testRule.test(modulePath)) {
         if (loader.loader) {
@@ -204,13 +204,13 @@ class Compiler {
   getEntry() {
     let entry = Object.create(null)
     const { entry: optionsEntry } = this.options
-    if (typeof entry === "string") {
-      entry["main"] = optionsEntry
+    if (typeof entry === 'string') {
+      entry['main'] = optionsEntry
     } else {
       entry = optionsEntry
     }
     // 将entry变成绝对路径
-    Object.keys(entry).forEach((key) => {
+    Object.keys(entry).forEach(key => {
       const value = entry[key]
       if (!path.isAbsolute(value)) {
         // 转化为绝对路径的同时统一路径分隔符为 /

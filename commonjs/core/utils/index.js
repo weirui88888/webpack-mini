@@ -1,4 +1,4 @@
-const fs = require("fs")
+const fs = require('fs')
 
 /**
  *
@@ -7,7 +7,7 @@ const fs = require("fs")
  * @returns
  */
 function toUnixPath(path) {
-  return path.replace(/\\/g, "/")
+  return path.replace(/\\/g, '/')
 }
 
 /**
@@ -20,7 +20,7 @@ function toUnixPath(path) {
  */
 function tryExtensions(modulePath, extensions, originModulePath, moduleContext) {
   // 优先尝试不需要扩展名选项
-  extensions.unshift("")
+  extensions.unshift('')
   for (let extension of extensions) {
     if (fs.existsSync(modulePath + extension)) {
       return modulePath + extension
@@ -44,14 +44,14 @@ function getSourceCode(chunk) {
   (() => {
     var __webpack_modules__ = {
       ${modules
-        .map((module) => {
+        .map(module => {
           return `
           '${module.id}': (module) => {
             ${module._source}
       }
         `
         })
-        .join(",")}
+        .join(',')}
     };
     // The module cache
     var __webpack_module_cache__ = {};
