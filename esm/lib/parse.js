@@ -6,7 +6,7 @@ const generate = require('@babel/generator').default
 const t = require('@babel/types')
 const ejs = require('ejs')
 
-const config = require('../../webpack.esm.config')
+const config = require('../webpack.config')
 
 const EXPORT_DEFAULT_FUN = `
 __webpack_require__.d(__webpack_exports__, {

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "esm-webpack": "node ./ESM/lib/parse.js"
+    "prettier": "prettier --write .",
+    "esm-webpack": "node ./esm/lib/parse.js",
+    "commonjs-webpack": "node ./commonjs/core/index.js"
   },
   "keywords": [],
   "author": "",
