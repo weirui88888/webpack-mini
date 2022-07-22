@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
     "prettier": "prettier --write .",
     "esm-webpack": "node ./esm/lib/parse.js",
     "commonjs-webpack": "node ./commonjs/core/index.js"
